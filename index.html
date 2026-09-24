@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZavtraMarket — Predict tomorrow, together</title>
+<meta name="description" content="ZavtraMarket is the prediction market built for the Slavic world. Trade on politics, sports, economy and culture. Join the waitlist.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔮</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="bg-glow" aria-hidden="true"></div>
+
+<header class="site-header">
+  <a class="brand" href="#top">
+    <span class="brand-mark">З</span>
+    <span class="brand-name">Zavtra<em>Market</em></span>
+  </a>
+  <div class="header-actions">
+    <button id="lang-toggle" class="lang-toggle" type="button" aria-label="Switch language">RU</button>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="hero">
+    <p class="eyebrow" data-en="Coming soon · Waitlist open" data-ru="Скоро запуск · Открыт лист ожидания">Coming soon · Waitlist open</p>
+    <h1>
+      <span data-en="Predict tomorrow." data-ru="Предскажи завтра.">Predict tomorrow.</span><br>
+      <span class="accent" data-en="Together." data-ru="Вместе.">Together.</span>
+    </h1>
+    <p class="subhead" data-en="ZavtraMarket is a prediction market built for the Slavic world — elections, football, currencies, culture. Say what you believe. Back it. Get paid when you're right." data-ru="ZavtraMarket — рынок прогнозов для славянского мира: выборы, футбол, курсы валют, культура. Скажи, во что веришь. Подтверди ставкой. Получи выплату, если оказался прав.">
+      ZavtraMarket is a prediction market built for the Slavic world — elections, football, currencies, culture. Say what you believe. Back it. Get paid when you're right.
+    </p>
+
+    <form id="waitlist-form" class="waitlist-form" novalidate>
+      <label class="sr-only" for="email" data-en="Email address" data-ru="Электронная почта">Email address</label>
+      <input
+        id="email"
+        name="email"
+        type="email"
+        inputmode="email"
+        autocomplete="email"
+        required
+        data-en-placeholder="you@example.com"
+        data-ru-placeholder="you@example.com"
+        placeholder="you@example.com"
+      >
+      <button type="submit" data-en="Join the waitlist" data-ru="Записаться">Join the waitlist</button>
+    </form>
+    <p id="form-message" class="form-message" role="status" aria-live="polite"></p>
+  </section>
+
+  <section class="markets-strip" aria-label="Example markets">
+    <div class="ticker">
+      <div class="ticker-track">
+        <span class="chip">🗳️ Next election turnout &gt; 60%? <b>42%</b></span>
+        <span class="chip">⚽ Champions League winner: club X <b>17%</b></span>
+        <span class="chip">💱 Ruble/USD below 90 by Q1? <b>55%</b></span>
+        <span class="chip">🎬 Eurovision top 3 finish? <b>28%</b></span>
+        <span class="chip">🌾 Harvest export quota raised? <b>63%</b></span>
+        <span class="chip">🗳️ Next election turnout &gt; 60%? <b>42%</b></span>
+        <span class="chip">⚽ Champions League winner: club X <b>17%</b></span>
+        <span class="chip">💱 Ruble/USD below 90 by Q1? <b>55%</b></span>
+        <span class="chip">🎬 Eurovision top 3 finish? <b>28%</b></span>
+        <span class="chip">🌾 Harvest export quota raised? <b>63%</b></span>
+      </div>
+    </div>
+  </section>
+
+  <section class="how">
+    <h2 data-en="How it works" data-ru="Как это работает">How it works</h2>
+    <div class="steps">
+      <div class="step">
+        <span class="step-num">1</span>
+        <h3 data-en="Pick a question" data-ru="Выбери вопрос">Pick a question</h3>
+        <p data-en="Real events that matter to our region — politics, sport, economy, culture." data-ru="Реальные события, важные для региона: политика, спорт, экономика, культура.">Real events that matter to our region — politics, sport, economy, culture.</p>
+      </div>
+      <div class="step">
+        <span class="step-num">2</span>
+        <h3 data-en="Back your prediction" data-ru="Подтверди прогноз">Back your prediction</h3>
+        <p data-en="Put your view on record and trade shares as odds shift." data-ru="Зафиксируй свою позицию и торгуй по мере изменения шансов.">Put your view on record and trade shares as odds shift.</p>
+      </div>
+      <div class="step">
+        <span class="step-num">3</span>
+        <h3 data-en="Get paid when you're right" data-ru="Получи выплату, если прав">Get paid when you're right</h3>
+        <p data-en="Markets settle on verified outcomes. Winners cash out instantly." data-ru="Рынки закрываются по проверенным итогам. Победители выводят средства мгновенно.">Markets settle on verified outcomes. Winners cash out instantly.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="why">
+    <h2 data-en="Built for our markets" data-ru="Создано для наших рынков">Built for our markets</h2>
+    <p class="why-lead" data-en="Global prediction markets skip the questions that actually matter here. We don't." data-ru="Глобальные рынки прогнозов обходят стороной то, что действительно важно здесь. Мы — нет.">Global prediction markets skip the questions that actually matter here. We don't.</p>
+    <ul class="why-grid">
+      <li>
+        <h3 data-en="Regional coverage" data-ru="Региональный охват">Regional coverage</h3>
+        <p data-en="Markets on the events, leagues and elections that dominate our feeds — not an afterthought category." data-ru="Рынки на события, лиги и выборы, которые заполняют наши ленты, а не второстепенная категория где-то внизу списка.">Markets on the events, leagues and elections that dominate our feeds — not an afterthought category.</p>
+      </li>
+      <li>
+        <h3 data-en="Speaks your language" data-ru="Говорит на вашем языке">Speaks your language</h3>
+        <p data-en="Built bilingual from day one, with more languages of the region on the way." data-ru="Двуязычная платформа с первого дня, другие языки региона — на подходе.">Built bilingual from day one, with more languages of the region on the way.</p>
+      </li>
+      <li>
+        <h3 data-en="Transparent settlement" data-ru="Прозрачные расчёты">Transparent settlement</h3>
+        <p data-en="Clear sourcing on every resolution, so outcomes are never a judgment call." data-ru="Понятные источники для каждого решения — итоги никогда не определяются на глаз.">Clear sourcing on every resolution, so outcomes are never a judgment call.</p>
+      </li>
+    </ul>
+  </section>
+
+  <section class="cta-final">
+    <h2 data-en="Be first when we open." data-ru="Узнай первым о запуске.">Be first when we open.</h2>
+    <p data-en="No spam. One email when ZavtraMarket launches." data-ru="Никакого спама. Одно письмо в день запуска ZavtraMarket.">No spam. One email when ZavtraMarket launches.</p>
+    <a class="cta-button" href="#top" data-en="Join the waitlist" data-ru="Записаться">Join the waitlist</a>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="brand small">
+    <span class="brand-mark">З</span>
+    <span class="brand-name">Zavtra<em>Market</em></span>
+  </div>
+  <p data-en="zavtramarket.com — prediction markets, tomorrow." data-ru="zavtramarket.com — рынки прогнозов, начиная с завтра.">zavtramarket.com — prediction markets, tomorrow.</p>
+  <p class="fine-print" data-en="ZavtraMarket is in development. Nothing here is a live offer to trade; no real-money markets exist yet." data-ru="ZavtraMarket находится в разработке. Ничто на этой странице не является реальным предложением торговли; рынков на реальные деньги пока не существует.">ZavtraMarket is in development. Nothing here is a live offer to trade; no real-money markets exist yet.</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
