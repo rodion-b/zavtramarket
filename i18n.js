@@ -203,6 +203,18 @@ window.I18N = {
       be: "ZavtraMarket знаходзіцца ў распрацоўцы. Нішто на гэтай старонцы не з'яўляецца рэальнай прапановай гандлю; рынкаў на рэальныя грошы пакуль не існуе.",
       en: "ZavtraMarket is in development. Nothing here is a live offer to trade; no real-money markets exist yet.",
     },
+    demoLink: {
+      ru: "Демо рынков",
+      uk: "Демо ринків",
+      be: "Дэма рынкаў",
+      en: "Markets demo",
+    },
+    demoCta: {
+      ru: "Или попробуйте демо: торгуйте на вымышленных рынках →",
+      uk: "Або спробуйте демо: торгуйте на вигаданих ринках →",
+      be: "Або паспрабуйце дэма: гандлюйце на выдуманых рынках →",
+      en: "Or try the demo: trade on made-up markets →",
+    },
     langSwitcher: {
       ru: "Язык",
       uk: "Мова",

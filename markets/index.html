@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Рынки · ZavtraMarket</title>
+<meta name="description" content="Демо рынков прогнозов ZavtraMarket: вымышленные рынки и виртуальный баланс.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><defs><linearGradient id=%22g%22 x1=%220%22 y1=%220%22 x2=%221%22 y2=%221%22><stop offset=%220%22 stop-color=%22%23f2c26b%22/><stop offset=%221%22 stop-color=%22%23c4453a%22/></linearGradient></defs><rect width=%22100%22 height=%22100%22 rx=%2226%22 fill=%22url(%23g)%22/><text x=%2250%22 y=%2274%22 text-anchor=%22middle%22 font-family=%22Arial,sans-serif%22 font-weight=%22700%22 font-size=%2270%22 letter-spacing=%22-4%22 fill=%22%2316130a%22>:З</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+
+<div class="bg-glow" aria-hidden="true"></div>
+
+<header class="site-header app-header">
+  <a class="brand" href="../">
+    <span class="brand-mark" aria-hidden="true">:З</span>
+    <span class="brand-name">Zavtra<em>Market</em></span>
+  </a>
+  <nav class="app-nav">
+    <a class="nav-link" data-view="list" href="#/" data-s="navMarkets">Рынки</a>
+    <a class="nav-link" data-view="portfolio" href="#/portfolio" data-s="navPortfolio">Портфель</a>
+  </nav>
+  <div class="header-actions">
+    <a class="balance-chip" href="#/portfolio"><span class="sr-only" data-s="balance">Баланс</span><span id="balance"></span></a>
+    <div id="lang-switcher" class="lang-switcher" role="group" aria-label="Язык"></div>
+  </div>
+</header>
+
+<p class="demo-banner" data-s="demoBanner">Демо-режим: все рынки вымышлены, баланс виртуальный. Настоящие деньги не используются.</p>
+
+<main id="app" class="app-main"></main>
+
+<footer class="site-footer">
+  <p class="fine-print" data-s="footer">ZavtraMarket находится в разработке. Это демо: рынки, цены и объёмы вымышлены, торговля ведётся виртуальными деньгами.</p>
+  <p><a class="footer-link" href="../" data-s="joinWaitlist">Записаться в лист ожидания</a></p>
+</footer>
+
+<div id="toasts" class="toasts" aria-live="polite"></div>
+
+<script src="../i18n.js"></script>
+<script src="strings.js"></script>
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

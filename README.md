@@ -4,6 +4,15 @@ Landing / waitlist page for **ZavtraMarket** — a prediction market for the Sla
 
 Static site, no build step: `index.html`, `style.css`, `i18n.js`, `script.js`. Available in Russian (default), Ukrainian, Belarusian and English via a switcher in the header. Each translatable node has a `data-i18n` key; the strings live in `i18n.js`, and `index.html` holds the Russian text so the page reads correctly before JS runs.
 
+## Markets demo (`/markets/`)
+
+A Kalshi-style trading demo with made-up data, linked from the landing page. Browse markets by category, search, sort and star them. Each event page has a probability chart, an order book, rules and a trade panel (market and limit buys, sell to close). A portfolio page shows positions, open orders and history. Everything runs in the browser: prices tick on a timer, orders fill against a generated order book, and the virtual $1,000 account is kept in `localStorage`.
+
+- `markets/data.js`: the fictional events and starting prices
+- `markets/strings.js`: UI text in all four languages
+- `markets/app.js`: routing, pricing, trading, charts
+- `markets/app.css`: styles on top of `../style.css`
+
 ## Before launch
 
 - The waitlist form only validates and shows a confirmation locally — **no email is actually captured yet**. Wire `script.js` (`waitlist-form` submit handler) up to a real backend, e.g. [Formspree](https://formspree.io), Mailchimp, ConvertKit, or a Supabase table.

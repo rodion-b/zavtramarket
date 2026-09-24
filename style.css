@@ -145,6 +145,21 @@ p { margin: 0; }
   color: #16130a;
 }
 
+.header-actions { display: flex; align-items: center; gap: 12px; }
+
+.demo-link {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+  white-space: nowrap;
+}
+.demo-link:hover { color: var(--accent-strong); }
+
+.demo-cta { margin-top: 18px; font-size: 14px; }
+.demo-cta a { color: var(--accent-strong); text-decoration: none; font-weight: 600; }
+.demo-cta a:hover { text-decoration: underline; }
+
 .hero {
   max-width: 720px;
   margin: 0 auto;
@@ -380,6 +395,7 @@ p { margin: 0; }
 
 @media (max-width: 420px) {
   .site-header { padding: 18px 16px 0; gap: 8px; }
+  .demo-link { display: none; }
   .brand-name { font-size: 16px; }
   .lang-option { padding: 6px 8px; font-size: 12px; }
 }
