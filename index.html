@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ZavtraMarket — Predict tomorrow, together</title>
-<meta name="description" content="ZavtraMarket is the prediction market built for the Slavic world. Trade on politics, sports, economy and culture. Join the waitlist.">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔮</text></svg>">
+<title>ZavtraMarket — Предскажи завтра. Вместе.</title>
+<meta name="description" content="ZavtraMarket — рынок прогнозов для славянского мира: политика, спорт, экономика, культура. Запишитесь в лист ожидания.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><defs><linearGradient id=%22g%22 x1=%220%22 y1=%220%22 x2=%221%22 y2=%221%22><stop offset=%220%22 stop-color=%22%23f2c26b%22/><stop offset=%221%22 stop-color=%22%23c4453a%22/></linearGradient></defs><rect width=%22100%22 height=%22100%22 rx=%2226%22 fill=%22url(%23g)%22/><text x=%2250%22 y=%2274%22 text-anchor=%22middle%22 font-family=%22Arial,sans-serif%22 font-weight=%22700%22 font-size=%2270%22 letter-spacing=%22-4%22 fill=%22%2316130a%22>:З</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
@@ -17,28 +17,26 @@
 
 <header class="site-header">
   <a class="brand" href="#top">
-    <span class="brand-mark">З</span>
+    <span class="brand-mark" aria-hidden="true">:З</span>
     <span class="brand-name">Zavtra<em>Market</em></span>
   </a>
   <div class="header-actions">
-    <button id="lang-toggle" class="lang-toggle" type="button" aria-label="Switch language">RU</button>
+    <div id="lang-switcher" class="lang-switcher" role="group" aria-label="Язык"></div>
   </div>
 </header>
 
 <main id="top">
 
   <section class="hero">
-    <p class="eyebrow" data-en="Coming soon · Waitlist open" data-ru="Скоро запуск · Открыт лист ожидания">Coming soon · Waitlist open</p>
+    <p class="eyebrow" data-i18n="eyebrow">Скоро запуск · Открыт лист ожидания</p>
     <h1>
-      <span data-en="Predict tomorrow." data-ru="Предскажи завтра.">Predict tomorrow.</span><br>
-      <span class="accent" data-en="Together." data-ru="Вместе.">Together.</span>
+      <span data-i18n="heroLine1">Предскажи <span class="nowrap"><span class="logo-text"><span aria-hidden="true">:</span>З</span>автра.</span></span><br>
+      <span class="accent" data-i18n="heroLine2">Вместе.</span>
     </h1>
-    <p class="subhead" data-en="ZavtraMarket is a prediction market built for the Slavic world — elections, football, currencies, culture. Say what you believe. Back it. Get paid when you're right." data-ru="ZavtraMarket — рынок прогнозов для славянского мира: выборы, футбол, курсы валют, культура. Скажи, во что веришь. Подтверди ставкой. Получи выплату, если оказался прав.">
-      ZavtraMarket is a prediction market built for the Slavic world — elections, football, currencies, culture. Say what you believe. Back it. Get paid when you're right.
-    </p>
+    <p class="subhead" data-i18n="subhead">ZavtraMarket — рынок прогнозов для славянского мира: выборы, футбол, курсы валют, культура. Скажи, во что веришь. Подтверди ставкой. Получи выплату, если оказался прав.</p>
 
     <form id="waitlist-form" class="waitlist-form" novalidate>
-      <label class="sr-only" for="email" data-en="Email address" data-ru="Электронная почта">Email address</label>
+      <label class="sr-only" for="email" data-i18n="emailLabel">Электронная почта</label>
       <input
         id="email"
         name="email"
@@ -46,89 +44,88 @@
         inputmode="email"
         autocomplete="email"
         required
-        data-en-placeholder="you@example.com"
-        data-ru-placeholder="you@example.com"
         placeholder="you@example.com"
       >
-      <button type="submit" data-en="Join the waitlist" data-ru="Записаться">Join the waitlist</button>
+      <button type="submit" data-i18n="join">Записаться</button>
     </form>
     <p id="form-message" class="form-message" role="status" aria-live="polite"></p>
   </section>
 
-  <section class="markets-strip" aria-label="Example markets">
+  <section class="markets-strip" aria-label="Примеры рынков" data-i18n-aria="marketsLabel">
     <div class="ticker">
       <div class="ticker-track">
-        <span class="chip">🗳️ Next election turnout &gt; 60%? <b>42%</b></span>
-        <span class="chip">⚽ Champions League winner: club X <b>17%</b></span>
-        <span class="chip">💱 Ruble/USD below 90 by Q1? <b>55%</b></span>
-        <span class="chip">🎬 Eurovision top 3 finish? <b>28%</b></span>
-        <span class="chip">🌾 Harvest export quota raised? <b>63%</b></span>
-        <span class="chip">🗳️ Next election turnout &gt; 60%? <b>42%</b></span>
-        <span class="chip">⚽ Champions League winner: club X <b>17%</b></span>
-        <span class="chip">💱 Ruble/USD below 90 by Q1? <b>55%</b></span>
-        <span class="chip">🎬 Eurovision top 3 finish? <b>28%</b></span>
-        <span class="chip">🌾 Harvest export quota raised? <b>63%</b></span>
+        <span class="chip"><span data-i18n="chipElection">🗳️ Явка на следующих выборах &gt; 60%?</span> <b>42%</b></span>
+        <span class="chip"><span data-i18n="chipFootball">⚽ Победитель Лиги чемпионов: клуб X</span> <b>17%</b></span>
+        <span class="chip"><span data-i18n="chipCurrency">💱 Рубль/USD ниже 90 к I кварталу?</span> <b>55%</b></span>
+        <span class="chip"><span data-i18n="chipEurovision">🎬 Евровидение: попадание в топ-3?</span> <b>28%</b></span>
+        <span class="chip"><span data-i18n="chipHarvest">🌾 Квоту на экспорт урожая повысят?</span> <b>63%</b></span>
+        <span class="chip"><span data-i18n="chipElection">🗳️ Явка на следующих выборах &gt; 60%?</span> <b>42%</b></span>
+        <span class="chip"><span data-i18n="chipFootball">⚽ Победитель Лиги чемпионов: клуб X</span> <b>17%</b></span>
+        <span class="chip"><span data-i18n="chipCurrency">💱 Рубль/USD ниже 90 к I кварталу?</span> <b>55%</b></span>
+        <span class="chip"><span data-i18n="chipEurovision">🎬 Евровидение: попадание в топ-3?</span> <b>28%</b></span>
+        <span class="chip"><span data-i18n="chipHarvest">🌾 Квоту на экспорт урожая повысят?</span> <b>63%</b></span>
       </div>
     </div>
   </section>
 
   <section class="how">
-    <h2 data-en="How it works" data-ru="Как это работает">How it works</h2>
+    <h2 data-i18n="howTitle">Как это работает</h2>
     <div class="steps">
       <div class="step">
         <span class="step-num">1</span>
-        <h3 data-en="Pick a question" data-ru="Выбери вопрос">Pick a question</h3>
-        <p data-en="Real events that matter to our region — politics, sport, economy, culture." data-ru="Реальные события, важные для региона: политика, спорт, экономика, культура.">Real events that matter to our region — politics, sport, economy, culture.</p>
+        <h3 data-i18n="step1Title">Выбери вопрос</h3>
+        <p data-i18n="step1Text">Реальные события, важные для региона: политика, спорт, экономика, культура.</p>
       </div>
       <div class="step">
         <span class="step-num">2</span>
-        <h3 data-en="Back your prediction" data-ru="Подтверди прогноз">Back your prediction</h3>
-        <p data-en="Put your view on record and trade shares as odds shift." data-ru="Зафиксируй свою позицию и торгуй по мере изменения шансов.">Put your view on record and trade shares as odds shift.</p>
+        <h3 data-i18n="step2Title">Подтверди прогноз</h3>
+        <p data-i18n="step2Text">Зафиксируй свою позицию и торгуй по мере изменения шансов.</p>
       </div>
       <div class="step">
         <span class="step-num">3</span>
-        <h3 data-en="Get paid when you're right" data-ru="Получи выплату, если прав">Get paid when you're right</h3>
-        <p data-en="Markets settle on verified outcomes. Winners cash out instantly." data-ru="Рынки закрываются по проверенным итогам. Победители выводят средства мгновенно.">Markets settle on verified outcomes. Winners cash out instantly.</p>
+        <h3 data-i18n="step3Title">Получи выплату, если прав</h3>
+        <p data-i18n="step3Text">Рынки закрываются по проверенным итогам. Победители выводят средства мгновенно.</p>
       </div>
     </div>
   </section>
 
   <section class="why">
-    <h2 data-en="Built for our markets" data-ru="Создано для наших рынков">Built for our markets</h2>
-    <p class="why-lead" data-en="Global prediction markets skip the questions that actually matter here. We don't." data-ru="Глобальные рынки прогнозов обходят стороной то, что действительно важно здесь. Мы — нет.">Global prediction markets skip the questions that actually matter here. We don't.</p>
+    <h2 data-i18n="whyTitle">Создано для наших рынков</h2>
+    <p class="why-lead" data-i18n="whyLead">Глобальные рынки прогнозов обходят стороной то, что действительно важно здесь. Мы — нет.</p>
     <ul class="why-grid">
       <li>
-        <h3 data-en="Regional coverage" data-ru="Региональный охват">Regional coverage</h3>
-        <p data-en="Markets on the events, leagues and elections that dominate our feeds — not an afterthought category." data-ru="Рынки на события, лиги и выборы, которые заполняют наши ленты, а не второстепенная категория где-то внизу списка.">Markets on the events, leagues and elections that dominate our feeds — not an afterthought category.</p>
+        <h3 data-i18n="regionTitle">Региональный охват</h3>
+        <p data-i18n="regionText">Рынки на события, лиги и выборы, которые заполняют наши ленты, а не второстепенная категория где-то внизу списка.</p>
       </li>
       <li>
-        <h3 data-en="Speaks your language" data-ru="Говорит на вашем языке">Speaks your language</h3>
-        <p data-en="Built bilingual from day one, with more languages of the region on the way." data-ru="Двуязычная платформа с первого дня, другие языки региона — на подходе.">Built bilingual from day one, with more languages of the region on the way.</p>
+        <h3 data-i18n="languageTitle">Говорит на вашем языке</h3>
+        <p data-i18n="languageText">Русский, украинский, белорусский и английский — с первого дня.</p>
       </li>
       <li>
-        <h3 data-en="Transparent settlement" data-ru="Прозрачные расчёты">Transparent settlement</h3>
-        <p data-en="Clear sourcing on every resolution, so outcomes are never a judgment call." data-ru="Понятные источники для каждого решения — итоги никогда не определяются на глаз.">Clear sourcing on every resolution, so outcomes are never a judgment call.</p>
+        <h3 data-i18n="settleTitle">Прозрачные расчёты</h3>
+        <p data-i18n="settleText">Понятные источники для каждого решения — итоги никогда не определяются на глаз.</p>
       </li>
     </ul>
   </section>
 
   <section class="cta-final">
-    <h2 data-en="Be first when we open." data-ru="Узнай первым о запуске.">Be first when we open.</h2>
-    <p data-en="No spam. One email when ZavtraMarket launches." data-ru="Никакого спама. Одно письмо в день запуска ZavtraMarket.">No spam. One email when ZavtraMarket launches.</p>
-    <a class="cta-button" href="#top" data-en="Join the waitlist" data-ru="Записаться">Join the waitlist</a>
+    <h2 data-i18n="ctaTitle">Узнай первым о запуске.</h2>
+    <p data-i18n="ctaText">Никакого спама. Одно письмо в день запуска ZavtraMarket.</p>
+    <a class="cta-button" href="#top" data-i18n="join">Записаться</a>
   </section>
 
 </main>
 
 <footer class="site-footer">
   <div class="brand small">
-    <span class="brand-mark">З</span>
+    <span class="brand-mark" aria-hidden="true">:З</span>
     <span class="brand-name">Zavtra<em>Market</em></span>
   </div>
-  <p data-en="zavtramarket.com — prediction markets, tomorrow." data-ru="zavtramarket.com — рынки прогнозов, начиная с завтра.">zavtramarket.com — prediction markets, tomorrow.</p>
-  <p class="fine-print" data-en="ZavtraMarket is in development. Nothing here is a live offer to trade; no real-money markets exist yet." data-ru="ZavtraMarket находится в разработке. Ничто на этой странице не является реальным предложением торговли; рынков на реальные деньги пока не существует.">ZavtraMarket is in development. Nothing here is a live offer to trade; no real-money markets exist yet.</p>
+  <p data-i18n="footerTagline">zavtramarket.com — рынки прогнозов, начиная с завтра.</p>
+  <p class="fine-print" data-i18n="finePrint">ZavtraMarket находится в разработке. Ничто на этой странице не является реальным предложением торговли; рынков на реальные деньги пока не существует.</p>
 </footer>
 
+<script src="i18n.js"></script>
 <script src="script.js"></script>
 </body>
 </html>

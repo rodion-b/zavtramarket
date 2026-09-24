@@ -2,7 +2,7 @@
 
 Landing / waitlist page for **ZavtraMarket** — a prediction market for the Slavic world (politics, sport, currencies, culture). Domain: `zavtramarket.com`.
 
-Static site, no build step: `index.html`, `style.css`, `script.js`. Bilingual (EN/RU) via a toggle in the header, using `data-en` / `data-ru` attributes on each text node.
+Static site, no build step: `index.html`, `style.css`, `i18n.js`, `script.js`. Available in Russian (default), Ukrainian, Belarusian and English via a switcher in the header. Each translatable node has a `data-i18n` key; the strings live in `i18n.js`, and `index.html` holds the Russian text so the page reads correctly before JS runs.
 
 ## Before launch
 
