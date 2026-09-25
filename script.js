@@ -27,26 +27,38 @@
     return strings[key][currentLang];
   }
 
-  // Renders a string, replacing each {logo} with the :З brand face in the
-  // logo's gradient. The colon is hidden from screen readers so the word
-  // is still announced normally.
+  // Renders a string with two brand tokens:
+  // {logo} — the :З mark standing in for the "з" of the next word. The colon
+  //          is hidden from screen readers so the word is announced normally.
+  // {face} — a standalone, purely decorative :3 face.
   function renderText(node, text) {
-    const parts = text.split("{logo}");
-    node.textContent = parts[0];
-    parts.slice(1).forEach((part) => {
-      const colon = document.createElement("span");
-      colon.setAttribute("aria-hidden", "true");
-      colon.textContent = ":";
-      const mark = document.createElement("span");
-      mark.className = "logo-text";
-      mark.append(colon, "З");
-      // Keep the mark glued to the rest of its word so it never wraps alone.
-      const [rest, ...after] = part.split(" ");
-      const word = document.createElement("span");
-      word.className = "nowrap";
-      word.append(mark, rest);
-      node.append(word, after.length ? " " + after.join(" ") : "");
-    });
+    const parts = text.split(/(\{logo\}|\{face\})/);
+    node.textContent = "";
+    for (let i = 0; i < parts.length; i++) {
+      const part = parts[i];
+      if (part === "{face}") {
+        const face = document.createElement("span");
+        face.className = "logo-text";
+        face.setAttribute("aria-hidden", "true");
+        face.textContent = ":3";
+        node.append(face);
+      } else if (part === "{logo}") {
+        const colon = document.createElement("span");
+        colon.setAttribute("aria-hidden", "true");
+        colon.textContent = ":";
+        const mark = document.createElement("span");
+        mark.className = "logo-text";
+        mark.append(colon, "З");
+        // Keep the mark glued to the rest of its word so it never wraps alone.
+        const [rest, ...after] = (parts[++i] || "").split(" ");
+        const word = document.createElement("span");
+        word.className = "nowrap";
+        word.append(mark, rest);
+        node.append(word, after.length ? " " + after.join(" ") : "");
+      } else {
+        node.append(part);
+      }
+    }
   }
 
   function applyLang(lang) {
