@@ -22,13 +22,12 @@ window.I18N = {
       be: "Хутка запуск · Спіс чакання адкрыты",
       en: "Coming soon · Waitlist open",
     },
-    // {logo} and {face} are brand tokens rendered by script.js. English has
-    // no "з" to replace, so it gets the :3 face after a non-breaking space.
+    // Text between {hl} and {/hl} is highlighted with the brand gradient.
     slogan: {
-      ru: "Что будет {logo}автра?",
-      uk: "Що буде {logo}автра?",
-      be: "Што будзе {logo}аўтра?",
-      en: "What happens tomorrow?\u00a0{face}",
+      ru: "Что будет {hl}завтра{/hl}?",
+      uk: "Що буде {hl}завтра{/hl}?",
+      be: "Што будзе {hl}заўтра{/hl}?",
+      en: "What happens {hl}tomorrow{/hl}?",
     },
     subhead: {
       ru: "ZavtraMarket — рынок прогнозов: выборы, футбол, курсы валют, культура. Скажи, во что веришь. Подтверди ставкой. Получи выплату, если оказался прав.",

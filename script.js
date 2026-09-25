@@ -27,38 +27,19 @@
     return strings[key][currentLang];
   }
 
-  // Renders a string with two brand tokens:
-  // {logo} — the :З mark standing in for the "з" of the next word. The colon
-  //          is hidden from screen readers so the word is announced normally.
-  // {face} — a standalone, purely decorative :3 face.
+  // Renders a string, wrapping {hl}…{/hl} in the brand gradient.
   function renderText(node, text) {
-    const parts = text.split(/(\{logo\}|\{face\})/);
     node.textContent = "";
-    for (let i = 0; i < parts.length; i++) {
-      const part = parts[i];
-      if (part === "{face}") {
-        const face = document.createElement("span");
-        face.className = "logo-text";
-        face.setAttribute("aria-hidden", "true");
-        face.textContent = ":3";
-        node.append(face);
-      } else if (part === "{logo}") {
-        const colon = document.createElement("span");
-        colon.setAttribute("aria-hidden", "true");
-        colon.textContent = ":";
-        const mark = document.createElement("span");
-        mark.className = "logo-text";
-        mark.append(colon, "З");
-        // Keep the mark glued to the rest of its word so it never wraps alone.
-        const [rest, ...after] = (parts[++i] || "").split(" ");
-        const word = document.createElement("span");
-        word.className = "nowrap";
-        word.append(mark, rest);
-        node.append(word, after.length ? " " + after.join(" ") : "");
+    text.split(/\{hl\}(.*?)\{\/hl\}/).forEach((part, i) => {
+      if (i % 2) {
+        const hl = document.createElement("span");
+        hl.className = "logo-text";
+        hl.textContent = part;
+        node.append(hl);
       } else {
         node.append(part);
       }
-    }
+    });
   }
 
   function applyLang(lang) {

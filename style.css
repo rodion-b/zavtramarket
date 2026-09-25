@@ -102,8 +102,6 @@ p { margin: 0; }
 
 .brand:hover .brand-mark { transform: rotate(-8deg) scale(1.06); }
 
-.nowrap { white-space: nowrap; }
-
 .logo-text {
   background: linear-gradient(155deg, var(--accent-strong), var(--accent-2));
   filter: var(--text-glow);
