@@ -314,6 +314,15 @@
   }
   const pctHtml = (key) => `<span data-live="pct" data-key="${key}">${price(key)}%</span>`;
   const askHtml = (key, side) => `<span data-live="ask" data-key="${key}" data-side="${side}">${ask(key, side)}¢</span>`;
+  // Semicircle gauge for Yes/No markets; refreshLive() keeps it in sync.
+  const GAUGE_ARC = "M6 32a26 26 0 0 1 52 0";
+  function gaugeHtml(key) {
+    const p = price(key);
+    return `<span class="gauge${p < 50 ? " low" : ""}" data-live="gauge" data-key="${key}" role="img" aria-label="${p}% ${esc(t("chance"))}">
+      <svg viewBox="0 0 64 36" aria-hidden="true"><path class="gauge-track" d="${GAUGE_ARC}" pathLength="100"/>
+      <path class="gauge-fill" d="${GAUGE_ARC}" pathLength="100" stroke-dasharray="${p} 100"/></svg>
+      <b>${p}%</b><small>${esc(t("chance"))}</small></span>`;
+  }
   const eventVolume = (event) => event.volume + (state.volumes[event.id] || 0) / 100;
   const sortedMarkets = (event) =>
     event.markets.map((m) => `${event.id}/${m.id}`).sort((a, b) => price(b) - price(a));
@@ -331,7 +340,6 @@
       const key = keys[0];
       body = `
         <div class="card-binary">
-          <div class="big-chance">${pctHtml(key)} <small>${esc(t("chance"))}</small> ${deltaHtml(key)}</div>
           <div class="yn">
             <a class="btn-yes" href="${eventHref(event, event.markets[0].id, "yes")}">${esc(t("yes"))} ${askHtml(key, "yes")}</a>
             <a class="btn-no" href="${eventHref(event, event.markets[0].id, "no")}">${esc(t("no"))} ${askHtml(key, "no")}</a>
@@ -357,12 +365,12 @@
       <header class="card-head">
         <span class="card-icon" aria-hidden="true">${event.icon}</span>
         <a class="card-title" href="${eventHref(event)}">${esc(tx(event.title))}</a>
-        ${starButton(event)}
+        ${isBinary(event) ? gaugeHtml(keys[0]) : ""}
       </header>
       ${body}
       <footer class="card-foot">
         <span>${esc(t("volume", { v: compactMoney(eventVolume(event)) }))}</span>
-        <span>${esc(t("closes", { d: fmtDate(event.closes) }))}</span>
+        <span class="foot-end"><span>${esc(t("closes", { d: fmtDate(event.closes) }))}</span>${starButton(event)}</span>
       </footer>
     </article>`;
   }
@@ -949,6 +957,14 @@
   function refreshLive() {
     document.querySelectorAll("[data-live]").forEach((node) => {
       const { key, side } = node.dataset;
+      if (node.dataset.live === "gauge") {
+        const p = price(key);
+        node.classList.toggle("low", p < 50);
+        node.querySelector(".gauge-fill").setAttribute("stroke-dasharray", `${p} 100`);
+        node.querySelector("b").textContent = `${p}%`;
+        node.setAttribute("aria-label", `${p}% ${t("chance")}`);
+        return;
+      }
       let text;
       if (node.dataset.live === "pct") text = `${price(key)}%`;
       else if (node.dataset.live === "ask") text = `${ask(key, side)}¢`;

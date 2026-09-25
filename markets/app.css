@@ -10,7 +10,18 @@
 
 a { color: inherit; }
 
-.app-header { max-width: var(--app-width); gap: 16px; }
+.app-header {
+  max-width: none;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  gap: 16px;
+  padding: 12px max(20px, calc((100% - var(--app-width)) / 2 + 20px));
+  background: rgba(10, 15, 24, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
 .app-header .header-actions { display: flex; align-items: center; gap: 10px; }
 
 .app-nav { display: flex; gap: 4px; margin-right: auto; margin-left: 12px; }
@@ -171,20 +182,20 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   gap: 12px;
   margin-bottom: 20px;
 }
-.pills { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; max-width: 100%; }
+.pills { display: flex; gap: 22px; overflow-x: auto; scrollbar-width: none; width: 100%; border-bottom: 1px solid var(--border); }
 .pills::-webkit-scrollbar { display: none; }
 .pill {
   flex: none;
   text-decoration: none;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 600;
   color: var(--text-dim);
-  padding: 7px 14px;
-  border-radius: 999px;
-  border: 1px solid var(--border);
+  padding: 10px 0;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
 }
 .pill:hover { color: var(--text); }
-.pill.active { color: var(--on-accent); background: var(--accent); border-color: var(--accent); box-shadow: var(--glow); }
+.pill.active { color: var(--text); border-bottom-color: var(--accent); }
 
 .tools { display: flex; gap: 8px; }
 .search, .select, .field input {
@@ -221,7 +232,9 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .featured-outcomes { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
 .featured-outcomes li { display: grid; grid-template-columns: 10px 1fr auto auto auto; align-items: center; gap: 8px; }
 .featured-outcomes i, .legend-item i, .chart-tip i { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
-.featured .card-foot { margin-top: auto; }
+.featured .foot-end { display: inline-flex; align-items: center; gap: 6px; }
+.card-foot .star { font-size: 16px; padding: 0 2px; margin: -4px -2px; }
+.card-foot { margin-top: auto; }
 
 .grid {
   display: grid;
@@ -237,9 +250,9 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 16px;
-  transition: border-color 0.15s ease;
+  transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
 }
-.card:hover { border-color: rgba(var(--accent-rgb), 0.45); }
+.card:hover { background: var(--card-hover); border-color: #2d3b52; transform: translateY(-2px); }
 .card-head { display: grid; grid-template-columns: auto 1fr auto; gap: 10px; align-items: start; }
 .card-icon, .event-icon {
   display: grid;
@@ -254,9 +267,14 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .card-title:hover { color: var(--accent-strong); }
 
 .card-binary { display: flex; flex-direction: column; gap: 12px; margin-top: auto; }
-.big-chance { display: flex; align-items: baseline; gap: 6px; }
-.big-chance > span:first-child { font-family: "Space Grotesk", sans-serif; font-size: 30px; font-weight: 700; }
-.big-chance small { color: var(--text-dim); }
+.gauge { position: relative; flex: none; width: 64px; text-align: center; margin-top: -2px; }
+.gauge svg { display: block; width: 64px; height: 36px; }
+.gauge-track, .gauge-fill { fill: none; stroke-width: 6; stroke-linecap: round; }
+.gauge-track { stroke: var(--border); }
+.gauge-fill { stroke: var(--success); transition: stroke-dasharray 0.4s ease; }
+.gauge.low .gauge-fill { stroke: var(--danger); }
+.gauge b { position: absolute; left: 0; right: 0; top: 15px; font-size: 14px; font-variant-numeric: tabular-nums; }
+.gauge small { display: block; margin-top: -1px; font-size: 10px; color: var(--text-dim); }
 .yn { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 
 .card-outcomes { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
@@ -266,6 +284,8 @@ a.oc-label:hover { color: var(--accent-strong); }
 .oc-pct { font-weight: 700; font-variant-numeric: tabular-nums; min-width: 3ch; text-align: right; }
 .more { color: var(--text-dim); font-size: 13px; margin-top: -4px; }
 
+.foot-end { display: inline-flex; align-items: center; gap: 6px; }
+.card-foot .star { font-size: 16px; padding: 0 2px; margin: -4px -2px; }
 .card-foot {
   display: flex;
   justify-content: space-between;
@@ -503,7 +523,8 @@ a.oc-label:hover { color: var(--accent-strong); }
 }
 
 @media (max-width: 640px) {
-  .app-header { flex-wrap: wrap; padding: 16px 16px 0; row-gap: 10px; }
+  /* Two-row header would eat too much of a phone screen if it stayed pinned. */
+  .app-header { position: static; flex-wrap: wrap; padding: 12px 16px; row-gap: 10px; }
   .app-nav { order: 3; width: 100%; }
   .demo-banner, .app-main { padding-left: 16px; padding-right: 16px; }
   .tools { width: 100%; }
@@ -518,4 +539,6 @@ a.oc-label:hover { color: var(--accent-strong); }
 
 @media (prefers-reduced-motion: reduce) {
   .flash, .toast { animation: none; }
+  .card:hover { transform: none; }
+  .gauge-fill { transition: none; }
 }
