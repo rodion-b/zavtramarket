@@ -2,7 +2,8 @@
 // timer, orders fill against a generated order book, and the account lives in
 // localStorage. Money is kept in integer cents throughout.
 (() => {
-  const { languages, defaultLang } = window.I18N;
+  const languages = window.ZM_LANGUAGES;
+  const defaultLang = window.ZM_DEFAULT_LANG;
   const S = window.ZM_STRINGS;
   const EVENTS = window.ZM_EVENTS;
   const CATS = window.ZM_CATEGORIES;
@@ -15,6 +16,8 @@
   const LOCALES = { ru: "ru-RU", uk: "uk-UA", be: "be-BY", en: "en-US" };
   const COLORS = ["#e6eeff", "#6ea8fe", "#6fd49a", "#f2c26b", "#e05bb5", "#5fd3d3"];
   const RANGES = { "1d": 24, "1w": 168, "1m": 720, all: HISTORY_HOURS };
+  const LIVE_WINDOW = 60000; // a market counts as "live" for a minute after its price moves
+  const HERO_COUNT = 7;
 
   // ---------- markets index ----------
 
@@ -43,7 +46,8 @@
 
   const tx = (value) => (value == null ? "" : typeof value === "string" ? value : value[lang] ?? value.ru);
   function t(key, vars = {}) {
-    return tx(S[key]).replace(/\{(\w+)\}/g, (_, name) => vars[name] ?? "");
+    // Only fill placeholders we were given, so markup like {hl}…{/hl} survives.
+    return tx(S[key]).replace(/\{(\w+)\}/g, (match, name) => (name in vars ? vars[name] : match));
   }
   const sideName = (side) => t(side === "yes" ? "yes" : "no");
   const locale = () => LOCALES[lang] || "ru-RU";
@@ -108,9 +112,14 @@
 
   // The Yes price in cents, which doubles as the % chance.
   const price = (key) => state.prices[key] ?? MARKETS.get(key).base;
+  const lastMove = new Map(); // market key → when its price last changed (this visit only)
   const setPrice = (key, value) => {
-    state.prices[key] = clamp(Math.round(value), 2, 98);
+    const next = clamp(Math.round(value), 2, 98);
+    if (next !== price(key)) lastMove.set(key, Date.now());
+    state.prices[key] = next;
   };
+  // The % chance of one side: Yes is the price, No is its complement.
+  const chance = (key, side = "yes") => (side === "no" ? 100 - price(key) : price(key));
   // Best prices to buy (ask) and sell (bid) each side. Yes ask + No bid = 100.
   const ask = (key, side) => (side === "yes" ? price(key) : 101 - price(key));
   const bid = (key, side) => (side === "yes" ? price(key) - 1 : 100 - price(key));
@@ -283,6 +292,8 @@
     bookSide: "yes",
     ptab: "positions",
     chartHover: false,
+    hero: 0,
+    liveIds: "",
     trade: { key: null, side: "yes", mode: "buy", type: "market", amount: "", limit: "", count: "" },
   };
 
@@ -293,6 +304,8 @@
     const params = new URLSearchParams(query);
     if (parts[0] === "e" && parts[1]) return { view: "event", id: decodeURIComponent(parts[1]), params };
     if (parts[0] === "portfolio") return { view: "portfolio", params };
+    if (parts[0] === "live") return { view: "live", params };
+    if (parts[0] === "how") return { view: "how", params };
     if (parts[0] === "c" && parts[1]) return { view: "list", cat: parts[1], params };
     return { view: "list", cat: "trending", params };
   }
@@ -312,7 +325,8 @@
     if (!d) return `<span class="delta flat" data-live="delta" data-key="${key}">0</span>`;
     return `<span class="delta ${d > 0 ? "up" : "down"}" data-live="delta" data-key="${key}">${d > 0 ? "▲" : "▼"} ${Math.abs(d)}</span>`;
   }
-  const pctHtml = (key) => `<span data-live="pct" data-key="${key}">${price(key)}%</span>`;
+  const pctHtml = (key, side = "yes") =>
+    `<span data-live="pct" data-key="${key}" data-side="${side}">${chance(key, side)}%</span>`;
   const askHtml = (key, side) => `<span data-live="ask" data-key="${key}" data-side="${side}">${ask(key, side)}¢</span>`;
   // Semicircle gauge for Yes/No markets; refreshLive() keeps it in sync.
   const GAUGE_ARC = "M6 32a26 26 0 0 1 52 0";
@@ -483,14 +497,25 @@
 
   // ---------- views ----------
 
+  const catLabel = (id) => tx((CATS.find((c) => c.id === id) || { label: S.watchlist }).label);
+  // Text with {hl}…{/hl} marks as HTML, the marked part in the brand gradient.
+  const hlHtml = (text) => esc(text).replace(/\{hl\}(.*?)\{\/hl\}/g, '<span class="logo-text">$1</span>');
+  const fullMoney = (dollars) =>
+    new Intl.NumberFormat(locale(), { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(dollars);
+  // What a winning contract returns per dollar staked on this side, e.g. "1,15x".
+  const payout = (key, side) =>
+    `${new Intl.NumberFormat(locale(), { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(100 / ask(key, side))}x`;
+
+  // A search looks across every market; otherwise the category tab decides.
   function filteredEvents(cat) {
     const q = ui.q.trim().toLowerCase();
-    let list = EVENTS.filter((event) => {
-      if (cat === "watchlist" && !state.watch.includes(event.id)) return false;
-      if (cat !== "trending" && cat !== "watchlist" && event.cat !== cat) return false;
-      if (!q) return true;
-      const text = [tx(event.title), ...event.markets.map((m) => tx(m.label))].join(" ").toLowerCase();
-      return text.includes(q);
+    const list = EVENTS.filter((event) => {
+      if (q) {
+        const text = [tx(event.title), ...event.markets.map((m) => tx(m.label))].join(" ").toLowerCase();
+        return text.includes(q);
+      }
+      if (cat === "watchlist") return state.watch.includes(event.id);
+      return cat === "trending" || event.cat === cat;
     });
     const topMove = (event) => Math.max(...event.markets.map((m) => Math.abs(change24h(`${event.id}/${m.id}`))));
     const sorters = {
@@ -502,66 +527,194 @@
     return list.sort(sorters[ui.sort]);
   }
 
-  function listView(cat) {
-    const pills = [...CATS, { id: "watchlist", label: S.watchlist }]
-      .map(
-        (c) =>
-          `<a class="pill${c.id === cat ? " active" : ""}" href="#/c/${c.id}"${c.id === cat ? ' aria-current="page"' : ""}>${c.id === "watchlist" ? "★ " : ""}${esc(tx(c.label))}</a>`
-      )
-      .join("");
-    const sorts = ["volume", "movers", "closing", "new"]
-      .map((s) => `<option value="${s}"${ui.sort === s ? " selected" : ""}>${esc(t(`sort${s[0].toUpperCase()}${s.slice(1)}`))}</option>`)
-      .join("");
-    return `
-      <div class="toolbar">
-        <nav class="pills" aria-label="${esc(t("navMarkets"))}">${pills}</nav>
-        <div class="tools">
-          <input id="search" class="search" type="search" placeholder="${esc(t("search"))}" aria-label="${esc(t("search"))}" value="${esc(ui.q)}">
-          <select id="sort" class="select" aria-label="${esc(t("sortLabel"))}">${sorts}</select>
-        </div>
-      </div>
-      <div id="results"></div>`;
-  }
+  const listView = () => `<div id="results"></div>`;
 
   function renderResults(cat) {
     const el = document.getElementById("results");
     if (!el) return;
+    const q = ui.q.trim();
+    const home = cat === "trending" && !q;
     const events = filteredEvents(cat);
-    if (!events.length) {
-      el.innerHTML = `<p class="empty">${esc(t(cat === "watchlist" && !ui.q ? "emptyWatchlist" : "noResults"))}</p>`;
-      return;
-    }
-    let featured = "";
-    let rest = events;
-    if (cat === "trending" && !ui.q) {
-      // Feature the biggest multi-outcome event: its chart has the most to show.
-      const top = events.find((e) => !isBinary(e)) || events[0];
-      rest = events.filter((e) => e !== top);
-      const keys = sortedMarkets(top);
-      const rows = keys
-        .slice(0, 4)
-        .map((key, i) => {
-          const { market } = MARKETS.get(key);
-          return `<li><i style="background:${COLORS[i]}"></i>
-            <span class="oc-label">${esc(isBinary(top) ? t("yes") : tx(market.label))}</span>
-            <span class="oc-pct">${pctHtml(key)}</span>
-            <a class="mini-yes" href="${eventHref(top, market.id, "yes")}">${esc(t("yes"))} ${askHtml(key, "yes")}</a>
-            <a class="mini-no" href="${eventHref(top, market.id, "no")}">${esc(t("no"))} ${askHtml(key, "no")}</a></li>`;
-        })
-        .join("");
-      featured = `<article class="featured">
-        <div class="featured-info">
-          <p class="crumb">${esc(tx(CATS.find((c) => c.id === top.cat).label))}</p>
-          <a class="featured-title" href="${eventHref(top)}"><span aria-hidden="true">${top.icon}</span> ${esc(tx(top.title))}</a>
-          <ul class="featured-outcomes">${rows}</ul>
-          <p class="card-foot"><span>${esc(t("volume", { v: compactMoney(eventVolume(top)) }))}</span><span>${esc(t("closes", { d: fmtDate(top.closes) }))}</span></p>
+    const sorts = ["volume", "movers", "closing", "new"]
+      .map((s) => `<option value="${s}"${ui.sort === s ? " selected" : ""}>${esc(t(`sort${s[0].toUpperCase()}${s.slice(1)}`))}</option>`)
+      .join("");
+    const heading = q ? t("searchResults") : home ? t("allMarkets") : catLabel(cat);
+    const body = events.length
+      ? `<div class="grid">${events.map(cardHtml).join("")}</div>`
+      : `<p class="empty">${esc(t(cat === "watchlist" && !q ? "emptyWatchlist" : "noResults"))}</p>`;
+    el.innerHTML = `${home ? homeTopHtml() : ""}
+      <section class="market-section">
+        <div class="section-head">
+          <h2>${esc(heading)}</h2>
+          <select id="sort" class="select" aria-label="${esc(t("sortLabel"))}">${sorts}</select>
         </div>
-        <div class="chart featured-chart" id="featured-chart" data-event="${top.id}"></div>
-      </article>`;
-    }
-    el.innerHTML = `${featured}<div class="grid">${rest.map(cardHtml).join("")}</div>`;
-    const chart = document.getElementById("featured-chart");
-    if (chart) drawChart(chart, chartSeries(EVENTS.find((e) => e.id === chart.dataset.event)), "1m", 220);
+        ${body}
+      </section>
+      ${home ? waitlistHtml("wl-home") : ""}`;
+    if (home) drawHeroChart();
+  }
+
+  // Home, Kalshi-style: a featured-market carousel with category hubs and movers alongside.
+  const heroEvents = () => [...EVENTS].sort((a, b) => eventVolume(b) - eventVolume(a)).slice(0, HERO_COUNT);
+
+  function homeTopHtml() {
+    return `<div class="home">
+      <div class="home-main">
+        <div id="hero-slot">${heroHtml()}</div>
+        <div class="info-cards">${infoCardsHtml()}</div>
+      </div>
+      <aside class="home-side">${hubsHtml()}${trendingHtml()}</aside>
+    </div>`;
+  }
+
+  function heroHtml() {
+    const list = heroEvents();
+    ui.hero = ((ui.hero % list.length) + list.length) % list.length;
+    const event = list[ui.hero];
+    const binary = isBinary(event);
+    const keys = sortedMarkets(event);
+    // Yes/No markets list both sides; multi-outcome markets list their top three.
+    const rows = (binary ? [[keys[0], "yes"], [keys[0], "no"]] : keys.slice(0, 3).map((k) => [k, "yes"]))
+      .map(([key, side], i) => {
+        const { market } = MARKETS.get(key);
+        const color = COLORS[i];
+        return `<div class="hero-row">
+          <a class="hero-name" href="${eventHref(event, market.id, side)}">
+            <span class="hero-label"><i style="background:${color}"></i>${esc(binary ? sideName(side) : tx(market.label))}</span>
+            <span class="hero-bar" data-live="bar" data-key="${key}" data-side="${side}" style="background:${color};width:${chance(key, side)}%"></span>
+          </a>
+          <span class="hero-payout" data-live="payout" data-key="${key}" data-side="${side}">${payout(key, side)}</span>
+          <a class="odds-pill" href="${eventHref(event, market.id, side)}">${pctHtml(key, side)}</a>
+        </div>`;
+      })
+      .join("");
+    const more = keys.length > 3 ? t("moreOutcomes", { n: keys.length - 3 }) : t("closes", { d: fmtDate(event.closes) });
+    const legend = chartSeries(event)
+      .map((s) => `<span class="legend-item"><i style="background:${s.color}"></i>${esc(s.label)} <b>${pctHtml(s.key)}</b></span>`)
+      .join("");
+    return `<article class="hero-market" aria-roledescription="carousel">
+      <header class="hero-top">
+        <span class="hero-cat"><span class="hero-icon" aria-hidden="true">${event.icon}</span>${esc(catLabel(event.cat))}</span>
+        <div class="pager">
+          <button type="button" class="pager-btn" data-action="hero" data-dir="-1" aria-label="${esc(t("prevMarket"))}">‹</button>
+          <span>${esc(t("pager", { i: ui.hero + 1, n: list.length }))}</span>
+          <button type="button" class="pager-btn" data-action="hero" data-dir="1" aria-label="${esc(t("nextMarket"))}">›</button>
+        </div>
+      </header>
+      <a class="hero-title" href="${eventHref(event)}">${esc(tx(event.title))}</a>
+      <div class="hero-body">
+        <div class="hero-table">
+          <div class="hero-row hero-head"><span>${esc(t("outcome"))}</span><span>${esc(t("colPayout"))}</span><span>${esc(t("chanceCol"))}</span></div>
+          ${rows}
+          <div class="hero-foot"><span>${esc(t("volume", { v: fullMoney(eventVolume(event)) }))}</span><a href="${eventHref(event)}">${esc(more)}</a></div>
+        </div>
+        <div class="hero-chart-wrap">
+          <div class="legend">${legend}</div>
+          <div class="chart" id="hero-chart" data-event="${event.id}"></div>
+        </div>
+      </div>
+    </article>`;
+  }
+
+  function drawHeroChart() {
+    const el = document.getElementById("hero-chart");
+    if (el) drawChart(el, chartSeries(EVENTS.find((e) => e.id === el.dataset.event)), "1m", 230);
+  }
+
+  function hubsHtml() {
+    const totals = {};
+    EVENTS.forEach((e) => {
+      totals[e.cat] = (totals[e.cat] || 0) + eventVolume(e);
+    });
+    return Object.entries(totals)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 3)
+      .map(
+        ([cat, v], i) => `<a class="hub hub-${i}" href="#/c/${cat}">
+          <span><b>${esc(catLabel(cat))}</b><span>${esc(t("volume", { v: fullMoney(v) }))}</span></span>
+          <span class="chev" aria-hidden="true">›</span></a>`
+      )
+      .join("");
+  }
+
+  function trendingHtml() {
+    const rows = EVENTS.map((e) => ({ e, key: sortedMarkets(e)[0] }))
+      .sort((a, b) => Math.abs(change24h(b.key)) - Math.abs(change24h(a.key)))
+      .slice(0, 4)
+      .map(
+        ({ e, key }) => `<a class="trend-row" href="${eventHref(e)}">
+          <span class="trend-text"><b>${esc(tx(e.title))}</b><span>${esc(isBinary(e) ? t("yes") : tx(MARKETS.get(key).market.label))}</span></span>
+          <span class="trend-num">${pctHtml(key)}${deltaHtml(key)}</span></a>`
+      )
+      .join("");
+    return `<section class="trend-box"><h2>${esc(catLabel("trending"))}</h2>${rows}</section>`;
+  }
+
+  const ICONS = {
+    compass:
+      '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M15.5 8.5l-2 5-5 2 2-5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>',
+    scale:
+      '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 4v16M7 20h10M5 8h14M5 8l-2.5 6a3 3 0 0 0 5 0zM19 8l-2.5 6a3 3 0 0 0 5 0z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    shield:
+      '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8.5-7 10-4-1.5-7-5.5-7-10V6z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  };
+  function infoCardsHtml() {
+    return [
+      ["compass", "info1Title", "info1Text"],
+      ["scale", "settleTitle", "info2Text"],
+      ["shield", "info3Title", "info3Text"],
+    ]
+      .map(
+        ([icon, title, text]) => `<a class="info-card" href="#/how"><span class="info-icon">${ICONS[icon]}</span>
+          <span><b>${esc(t(title))}</b><span>${esc(t(text))}</span></span></a>`
+      )
+      .join("");
+  }
+
+  function waitlistFormHtml(id) {
+    return `<form class="waitlist-form" data-waitlist novalidate>
+        <label class="sr-only" for="${id}">${esc(t("emailLabel"))}</label>
+        <input id="${id}" name="email" type="email" inputmode="email" autocomplete="email" required placeholder="you@example.com">
+        <button type="submit">${esc(t("signUp"))}</button>
+      </form>
+      <p class="form-message" role="status" aria-live="polite"></p>`;
+  }
+  function waitlistHtml(id) {
+    return `<section class="waitlist-band">
+      <h2>${hlHtml(t("slogan"))}</h2>
+      <p>${esc(t("subhead"))}</p>
+      ${waitlistFormHtml(id)}
+    </section>`;
+  }
+
+  // Live: markets whose price moved within the last minute, most recent first.
+  const eventMovedAt = (event) => Math.max(0, ...event.markets.map((m) => lastMove.get(`${event.id}/${m.id}`) || 0));
+  function liveEvents() {
+    const now = Date.now();
+    return EVENTS.map((e) => ({ e, at: eventMovedAt(e) }))
+      .filter(({ at }) => now - at < LIVE_WINDOW)
+      .sort((a, b) => b.at - a.at)
+      .map(({ e }) => e);
+  }
+  function liveView() {
+    const list = liveEvents();
+    ui.liveIds = list.map((e) => e.id).join();
+    return `<section class="page-head"><h1><span class="live-dot" aria-hidden="true"></span>${esc(t("navLive"))}</h1>
+        <p>${esc(t("liveLead"))}</p></section>
+      ${list.length ? `<div class="grid">${list.map(cardHtml).join("")}</div>` : `<p class="empty">${esc(t("liveEmpty"))}</p>`}`;
+  }
+
+  function howView() {
+    const steps = [1, 2, 3]
+      .map((n) => `<li class="step"><span class="step-num">${n}</span><h3>${esc(t(`step${n}Title`))}</h3><p>${esc(t(`step${n}Text`))}</p></li>`)
+      .join("");
+    const why = ["region", "language", "settle"]
+      .map((k) => `<li><h3>${esc(t(`${k}Title`))}</h3><p>${esc(t(`${k}Text`))}</p></li>`)
+      .join("");
+    return `<section class="page-head"><h1>${esc(t("howTitle"))}</h1></section>
+      <ol class="steps">${steps}</ol>
+      <section class="why"><h2>${esc(t("whyTitle"))}</h2><p class="why-lead">${esc(t("whyLead"))}</p><ul class="why-grid">${why}</ul></section>
+      ${waitlistHtml("wl-how")}`;
   }
 
   function eventView(event) {
@@ -876,7 +1029,10 @@
   // ---------- chrome & rendering ----------
 
   const main = document.getElementById("app");
-  const switcher = document.getElementById("lang-switcher");
+  const catBar = document.getElementById("cat-bar");
+  const langSelect = document.getElementById("lang-select");
+  const searchInput = document.getElementById("search");
+  const dialog = document.getElementById("waitlist-dialog");
   let route = parseRoute();
 
   function renderHeader() {
@@ -884,20 +1040,36 @@
     document.querySelectorAll("[data-s]").forEach((node) => {
       node.textContent = t(node.dataset.s);
     });
+    document.querySelectorAll("[data-s-placeholder]").forEach((node) => node.setAttribute("placeholder", t(node.dataset.sPlaceholder)));
+    document.querySelectorAll("[data-s-aria]").forEach((node) => node.setAttribute("aria-label", t(node.dataset.sAria)));
+    const navView = route.view === "event" ? "list" : route.view;
     document.querySelectorAll(".nav-link").forEach((link) => {
-      const active = link.dataset.view === route.view || (link.dataset.view === "list" && route.view === "event");
+      const active = link.dataset.view === navView;
       link.classList.toggle("active", active);
       if (active) link.setAttribute("aria-current", "page");
       else link.removeAttribute("aria-current");
     });
-    switcher.setAttribute("aria-label", t("langSwitcher"));
-    switcher.innerHTML = languages
-      .map(
-        ({ code, label, name }) =>
-          `<button type="button" class="lang-option" lang="${code}" title="${esc(name)}" aria-label="${esc(name)}" aria-pressed="${code === lang}" data-action="lang" data-lang="${code}">${esc(label)}</button>`
-      )
+    const activeCat = route.view === "list" ? route.cat : null;
+    catBar.innerHTML = [...CATS, { id: "watchlist", label: S.watchlist }]
+      .map((c) => {
+        const on = c.id === activeCat;
+        const href = c.id === "trending" ? "#/" : `#/c/${c.id}`;
+        return `<a class="cat${on ? " active" : ""}" href="${href}"${on ? ' aria-current="page"' : ""}>${c.id === "watchlist" ? "★ " : ""}${esc(tx(c.label))}</a>`;
+      })
       .join("");
+    langSelect.setAttribute("aria-label", t("langSwitcher"));
+    langSelect.innerHTML = languages
+      .map(({ code, label, name }) => `<option value="${code}" lang="${code}" title="${esc(name)}"${code === lang ? " selected" : ""}>${esc(label)}</option>`)
+      .join("");
+    if (document.activeElement !== searchInput) searchInput.value = ui.q;
     updateBalance();
+    updateLiveCount();
+  }
+  function updateLiveCount() {
+    const el = document.getElementById("live-count");
+    const n = liveEvents().length;
+    el.textContent = n ? String(n) : "";
+    el.hidden = !n;
   }
   function updateBalance() {
     document.getElementById("balance").textContent = money(state.balance);
@@ -937,8 +1109,13 @@
     } else if (route.view === "portfolio") {
       main.innerHTML = portfolioView();
       renderPortfolioData();
+    } else if (route.view === "live") {
+      main.innerHTML = liveView();
+    } else if (route.view === "how") {
+      main.innerHTML = howView();
+      title = `${t("howTitle")} · ZavtraMarket`;
     } else {
-      main.innerHTML = listView(route.cat);
+      main.innerHTML = listView();
       renderResults(route.cat);
     }
     document.title = title;
@@ -965,8 +1142,13 @@
         node.setAttribute("aria-label", `${p}% ${t("chance")}`);
         return;
       }
+      if (node.dataset.live === "bar") {
+        node.style.width = `${chance(key, side)}%`;
+        return;
+      }
       let text;
-      if (node.dataset.live === "pct") text = `${price(key)}%`;
+      if (node.dataset.live === "pct") text = `${chance(key, side)}%`;
+      else if (node.dataset.live === "payout") text = payout(key, side);
       else if (node.dataset.live === "ask") text = `${ask(key, side)}¢`;
       else if (node.dataset.live === "bid") text = `${bid(key, side)}¢`;
       else if (node.dataset.live === "delta") {
@@ -990,10 +1172,12 @@
       updateTradeSummary();
     } else if (route.view === "portfolio") {
       renderPortfolioData();
-    } else {
-      const chart = document.getElementById("featured-chart");
-      if (chart && !ui.chartHover) drawChart(chart, chartSeries(EVENTS.find((e) => e.id === chart.dataset.event)), "1m", 220);
+    } else if (route.view === "live") {
+      if (liveEvents().map((e) => e.id).join() !== ui.liveIds) main.innerHTML = liveView();
+    } else if (!ui.chartHover) {
+      drawHeroChart();
     }
+    updateLiveCount();
   }
 
   // ---------- toasts ----------
@@ -1015,14 +1199,12 @@
     if (!target) return;
     const { action } = target.dataset;
     const tr = ui.trade;
-    if (action === "lang") {
-      lang = target.dataset.lang;
-      try {
-        localStorage.setItem(LANG_KEY, lang);
-      } catch (err) {
-        /* storage blocked — non-fatal */
-      }
-      render();
+    if (action === "hero") {
+      ui.hero += Number(target.dataset.dir);
+      document.getElementById("hero-slot").innerHTML = heroHtml();
+      drawHeroChart();
+    } else if (action === "waitlist") {
+      openWaitlist();
     } else if (action === "watch") {
       const id = target.dataset.event;
       state.watch = state.watch.includes(id) ? state.watch.filter((w) => w !== id) : [...state.watch, id];
@@ -1111,7 +1293,9 @@
     const tr = ui.trade;
     if (e.target.id === "search") {
       ui.q = e.target.value;
-      renderResults(route.cat);
+      // Search from any page lands on the market list.
+      if (route.view !== "list") location.hash = "#/";
+      else renderResults(route.cat);
     } else if (e.target.id === "f-amount") {
       tr.amount = e.target.value;
       updateTradeSummary();
@@ -1127,7 +1311,42 @@
     if (e.target.id === "sort") {
       ui.sort = e.target.value;
       renderResults(route.cat);
+    } else if (e.target.id === "lang-select") {
+      lang = e.target.value;
+      try {
+        localStorage.setItem(LANG_KEY, lang);
+      } catch (err) {
+        /* storage blocked — non-fatal */
+      }
+      render();
     }
+  });
+
+  // ---------- waitlist ----------
+
+  function openWaitlist() {
+    document.getElementById("dialog-form").innerHTML = waitlistFormHtml("wl-dialog");
+    if (typeof dialog.showModal === "function") dialog.showModal();
+    else dialog.setAttribute("open", "");
+    document.getElementById("wl-dialog").focus();
+  }
+  // A click on the dimmed backdrop (the dialog element itself) closes it.
+  dialog.addEventListener("click", (e) => {
+    if (e.target === dialog) dialog.close();
+  });
+
+  document.addEventListener("submit", (e) => {
+    const form = e.target.closest("[data-waitlist]");
+    if (!form) return;
+    e.preventDefault();
+    const input = form.querySelector("input[type=email]");
+    const message = form.nextElementSibling;
+    const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value.trim());
+    message.textContent = t(valid ? "formSuccess" : "formInvalid");
+    message.className = `form-message ${valid ? "success" : "error"}`;
+    // TODO: send the address to a real waitlist backend (Formspree, Mailchimp, ConvertKit or a
+    // Supabase table) before launch. For now this only confirms locally; nothing is stored.
+    if (valid) form.reset();
   });
   document.addEventListener("keydown", (e) => {
     if (e.key === "Enter" && e.target.closest("#trade-panel input")) {

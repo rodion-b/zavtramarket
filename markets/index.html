@@ -2,48 +2,11 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Рынки · ZavtraMarket</title>
-<meta name="description" content="Демо рынков прогнозов ZavtraMarket: вымышленные рынки и виртуальный баланс.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cstyle%3E.l{fill:%230b1020}@media (prefers-color-scheme:dark){.l{fill:%23f4f7ff}}%3C/style%3E%3Cdefs%3E%3CradialGradient id='fg' gradientUnits='userSpaceOnUse' cx='12.0' cy='20.2' r='10.5' gradientTransform='translate(12.0 20.2) scale(1 .6) translate(-12.0 -20.2)'%3E%3Cstop offset='0' stop-color='%23fff'/%3E%3Cstop offset='.2' stop-color='%237fb2ff' stop-opacity='.85'/%3E%3Cstop offset='.55' stop-color='%231f5fd1' stop-opacity='.32'/%3E%3Cstop offset='1' stop-color='%231f5fd1' stop-opacity='0'/%3E%3C/radialGradient%3E%3ClinearGradient id='fr' x1='1' x2='23' gradientUnits='userSpaceOnUse'%3E%3Cstop offset='0' stop-color='%23bcd4ff' stop-opacity='0'/%3E%3Cstop offset='.3' stop-color='%23bcd4ff'/%3E%3Cstop offset='.7' stop-color='%23bcd4ff'/%3E%3Cstop offset='1' stop-color='%23bcd4ff' stop-opacity='0'/%3E%3C/linearGradient%3E%3CclipPath id='fc'%3E%3Cpath d='M0 0H24V23Q12.0 16.8 0 23Z'/%3E%3C/clipPath%3E%3C/defs%3E%3Crect width='24' height='25' fill='url(%23fg)' clip-path='url(%23fc)'/%3E%3Cpath d='M1 23Q12.0 16.8 23 23' fill='none' stroke='url(%23fr)' stroke-width='0.7' stroke-linecap='round'/%3E%3Cpath class='l' transform='translate(6.219 16.6) scale(0.009500 -0.009500)' d='M42 0V72L812 1428H542Q406 1428 330.5 1398.0Q255 1368 218.0 1302.5Q181 1237 161 1130H89V1500H1162V1428L392 72H723Q859 72 934.0 104.0Q1009 136 1045.5 209.5Q1082 283 1102 410H1175V0Z'/%3E%3C/svg%3E">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;6..96,500&family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../style.css">
-<link rel="stylesheet" href="app.css">
+<title>ZavtraMarket</title>
+<link rel="canonical" href="https://zavtramarket.com/">
+<!-- The markets demo now lives on the home page; keep old links (and their #/… routes) working. -->
+<script>location.replace("../" + location.hash);</script>
+<meta http-equiv="refresh" content="0; url=../">
 </head>
-<body>
-
-<div class="bg-glow" aria-hidden="true"></div>
-
-<header class="site-header app-header">
-  <a class="brand" href="../">
-    <span class="brand-name"><span>Zavtra</span> <em>Market</em></span>
-  </a>
-  <nav class="app-nav">
-    <a class="nav-link" data-view="list" href="#/" data-s="navMarkets">Рынки</a>
-    <a class="nav-link" data-view="portfolio" href="#/portfolio" data-s="navPortfolio">Портфель</a>
-  </nav>
-  <div class="header-actions">
-    <a class="balance-chip" href="#/portfolio"><span class="sr-only" data-s="balance">Баланс</span><span id="balance"></span></a>
-    <div id="lang-switcher" class="lang-switcher" role="group" aria-label="Язык"></div>
-  </div>
-</header>
-
-<p class="demo-banner" data-s="demoBanner">Демо-режим: все рынки вымышлены, баланс виртуальный. Настоящие деньги не используются.</p>
-
-<main id="app" class="app-main"></main>
-
-<footer class="site-footer">
-  <p class="fine-print" data-s="footer">ZavtraMarket находится в разработке. Это демо: рынки, цены и объёмы вымышлены, торговля ведётся виртуальными деньгами.</p>
-  <p><a class="footer-link" href="../" data-s="joinWaitlist">Записаться в лист ожидания</a></p>
-</footer>
-
-<div id="toasts" class="toasts" aria-live="polite"></div>
-
-<script src="../i18n.js"></script>
-<script src="strings.js"></script>
-<script src="data.js"></script>
-<script src="app.js"></script>
-</body>
+<body><a href="../">ZavtraMarket</a></body>
 </html>
