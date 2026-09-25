@@ -1,16 +1,16 @@
 :root {
   color-scheme: dark;
   --bg: #000;
-  --bg-alt: #0e0a0a;
-  --card: #140e0e;
-  --border: #2c2121;
-  --text: #f6efef;
-  --text-dim: #aa9c9b;
-  --accent: #e11d2a;
-  --accent-strong: #ff4d57;
-  --accent-2: #9b0d16;
-  --accent-rgb: 225, 29, 42;
-  --on-accent: #fff;
+  --bg-alt: #080b12;
+  --card: #0c1019;
+  --border: #1c2433;
+  --text: #eef2fa;
+  --text-dim: #8f9bb0;
+  --accent: #a9c7ef;
+  --accent-strong: #cfe0ff;
+  --accent-2: #3f6fc4;
+  --accent-rgb: 120, 170, 255;
+  --on-accent: #05070d;
   --glow: 0 0 18px rgba(var(--accent-rgb), 0.5);
   --text-glow: drop-shadow(0 0 14px rgba(var(--accent-rgb), 0.5));
   --success: #3fbf7f;
@@ -30,7 +30,7 @@ body {
   margin: 0;
   min-height: 100vh;
   min-height: 100vh;
-  background: linear-gradient(180deg, #000 0%, #080404 55%, #170607 100%) fixed;
+  background: linear-gradient(180deg, #000 0%, #02040a 55%, #06102a 100%) fixed;
   background-color: var(--bg);
   color: var(--text);
   font-family: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -63,8 +63,8 @@ p { margin: 0; }
   inset: -20% -10% auto -10%;
   height: 70vh;
   background:
-    radial-gradient(45% 60% at 20% 20%, rgba(var(--accent-rgb), 0.18), transparent 60%),
-    radial-gradient(35% 50% at 85% 10%, rgba(155, 13, 22, 0.2), transparent 60%);
+    radial-gradient(45% 60% at 20% 20%, rgba(var(--accent-rgb), 0.12), transparent 60%),
+    radial-gradient(35% 50% at 85% 10%, rgba(63, 111, 196, 0.16), transparent 60%);
   pointer-events: none;
   z-index: 0;
 }
