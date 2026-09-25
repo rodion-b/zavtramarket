@@ -1,17 +1,18 @@
 :root {
   color-scheme: dark;
-  --bg: #0a0f18;
-  --bg-alt: #0f1622;
-  --card: #131b28;
-  --card-hover: #172131;
-  --border: #212c3d;
-  --text: #e9eef6;
-  --text-dim: #8c98ab;
-  --accent: #3d7bff;
-  --accent-strong: #86abff;
-  --accent-2: #2a5bd7;
-  --accent-rgb: 61, 123, 255;
-  --on-accent: #fff;
+  --bg: #05070c;
+  --bg-alt: #0a0e16;
+  --card: #0e131d;
+  --card-hover: #121926;
+  --border: #1d2533;
+  --text: #eef4fb;
+  --text-dim: #8a97aa;
+  --accent: #5cc8ff;
+  --accent-strong: #9fe0ff;
+  --accent-2: #c2268a;
+  --accent-rgb: 92, 200, 255;
+  --magenta-rgb: 194, 38, 138;
+  --on-accent: #041018;
   --glow: none;
   --text-glow: none;
   --success: #34c07a;
@@ -58,7 +59,15 @@ p { margin: 0; }
   border: 0;
 }
 
-.bg-glow { display: none; }
+.bg-glow {
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(40% 55% at 0% 10%, rgba(var(--accent-rgb), 0.1), transparent 70%),
+    radial-gradient(40% 50% at 100% 100%, rgba(var(--magenta-rgb), 0.12), transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
 
 .site-header, main, .site-footer { position: relative; z-index: 1; }
 

@@ -17,7 +17,7 @@ a { color: inherit; }
   z-index: 20;
   gap: 16px;
   padding: 12px max(20px, calc((100% - var(--app-width)) / 2 + 20px));
-  background: rgba(10, 15, 24, 0.88);
+  background: rgba(5, 7, 12, 0.85);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border);
