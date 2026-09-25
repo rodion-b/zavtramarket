@@ -1,16 +1,20 @@
 :root {
-  --bg: #000;
-  --bg-alt: #0d0a10;
-  --card: #120e16;
-  --border: #2a2231;
-  --text: #f5eef5;
-  --text-dim: #a89cab;
-  --accent: #cb3280;
-  --accent-strong: #d65f9c;
-  --accent-2: #7d2bb5;
-  --accent-rgb: 203, 50, 128;
+  color-scheme: light;
+  --bg: #fff;
+  --bg-alt: #f7f4f4;
+  --card: #fff;
+  --border: #ebe4e4;
+  --text: #17100f;
+  --text-dim: #6e6361;
+  --accent: #e11d2a;
+  --accent-strong: #c4121e;
+  --accent-2: #9b0d16;
+  --accent-rgb: 225, 29, 42;
   --on-accent: #fff;
-  --glow: 0 0 18px rgba(var(--accent-rgb), 0.55);
+  --glow: 0 6px 20px rgba(var(--accent-rgb), 0.28);
+  --text-glow: none;
+  --success: #15803d;
+  --danger: #c62828;
   --radius: 14px;
   --max-width: 1080px;
   font-size: 16px;
@@ -23,8 +27,7 @@ html { scroll-behavior: smooth; }
 body {
   margin: 0;
   min-height: 100vh;
-  background: linear-gradient(180deg, #000 0%, #07040a 55%, #140818 100%) fixed;
-  background-color: var(--bg);
+  background: var(--bg);
   color: var(--text);
   font-family: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
   line-height: 1.5;
@@ -56,8 +59,8 @@ p { margin: 0; }
   inset: -20% -10% auto -10%;
   height: 70vh;
   background:
-    radial-gradient(45% 60% at 20% 20%, rgba(var(--accent-rgb), 0.2), transparent 60%),
-    radial-gradient(35% 50% at 85% 10%, rgba(125, 43, 181, 0.18), transparent 60%);
+    radial-gradient(45% 60% at 20% 20%, rgba(var(--accent-rgb), 0.07), transparent 60%),
+    radial-gradient(35% 50% at 85% 10%, rgba(155, 13, 22, 0.05), transparent 60%);
   pointer-events: none;
   z-index: 0;
 }
@@ -105,7 +108,7 @@ p { margin: 0; }
 
 .logo-text {
   background: linear-gradient(155deg, var(--accent-strong), var(--accent-2));
-  filter: drop-shadow(0 0 14px rgba(var(--accent-rgb), 0.55));
+  filter: var(--text-glow);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -250,8 +253,8 @@ p { margin: 0; }
   font-weight: 600;
 }
 
-.form-message.success { color: #7cd992; }
-.form-message.error { color: #f08a7e; }
+.form-message.success { color: var(--success); }
+.form-message.error { color: var(--danger); }
 
 .markets-strip {
   border-top: 1px solid var(--border);

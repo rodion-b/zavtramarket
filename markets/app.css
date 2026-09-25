@@ -1,10 +1,10 @@
 /* Markets demo. Builds on the tokens and header styles in ../style.css. */
 
 :root {
-  --yes: #3fbf7f;
-  --yes-soft: rgba(63, 191, 127, 0.14);
-  --no: #e0605a;
-  --no-soft: rgba(224, 96, 90, 0.14);
+  --yes: var(--success);
+  --yes-soft: rgba(21, 128, 61, 0.1);
+  --no: var(--danger);
+  --no-soft: rgba(198, 40, 40, 0.1);
   --app-width: 1200px;
 }
 
@@ -112,8 +112,8 @@ a { color: inherit; }
 }
 .btn-yes, .mini-yes { background: var(--yes-soft); color: var(--yes); }
 .btn-no, .mini-no { background: var(--no-soft); color: var(--no); }
-.btn-yes:hover, .btn-yes.active, .mini-yes:hover { background: var(--yes); color: #0b1a12; }
-.btn-no:hover, .btn-no.active, .mini-no:hover { background: var(--no); color: #1d0b0a; }
+.btn-yes:hover, .btn-yes.active, .mini-yes:hover { background: var(--yes); color: #fff; }
+.btn-no:hover, .btn-no.active, .mini-no:hover { background: var(--no); color: #fff; }
 .mini-yes, .mini-no { font-size: 12px; padding: 5px 9px; border-radius: 6px; }
 
 .seg {
@@ -404,8 +404,8 @@ a.oc-label:hover { color: var(--accent-strong); }
 }
 .sides .side-yes { background: var(--yes-soft); color: var(--yes); }
 .sides .side-no { background: var(--no-soft); color: var(--no); }
-.sides .side-yes.active { background: var(--yes); color: #0b1a12; }
-.sides .side-no.active { background: var(--no); color: #1d0b0a; }
+.sides .side-yes.active { background: var(--yes); color: #fff; }
+.sides .side-no.active { background: var(--no); color: #fff; }
 
 .field { display: flex; flex-direction: column; gap: 6px; font-size: 13px; color: var(--text-dim); font-weight: 600; }
 .field input { width: 100%; font-size: 18px; font-weight: 700; font-variant-numeric: tabular-nums; }
@@ -431,8 +431,8 @@ a.oc-label:hover { color: var(--accent-strong); }
   cursor: pointer;
   transition: filter 0.15s ease, transform 0.15s ease;
 }
-.submit.side-yes { background: var(--yes); color: #0b1a12; }
-.submit.side-no { background: var(--no); color: #1d0b0a; }
+.submit.side-yes { background: var(--yes); color: #fff; }
+.submit.side-no { background: var(--no); color: #fff; }
 .submit:hover:not(:disabled) { filter: brightness(1.08); }
 .submit:active:not(:disabled) { transform: scale(0.98); }
 .submit:disabled { opacity: 0.4; cursor: not-allowed; }
@@ -482,7 +482,7 @@ a.oc-label:hover { color: var(--accent-strong); }
   padding: 12px 14px;
   font-size: 14px;
   font-weight: 600;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 10px 30px rgba(23, 16, 15, 0.12);
   animation: toast-in 0.2s ease-out;
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
