@@ -5,11 +5,11 @@
   --border: #2a2231;
   --text: #f5eef5;
   --text-dim: #a89cab;
-  --accent: #ff2e97;
-  --accent-strong: #ff5cb0;
-  --accent-2: #c21ef0;
-  --accent-rgb: 255, 46, 151;
-  --on-accent: #1a0010;
+  --accent: #cb3280;
+  --accent-strong: #d65f9c;
+  --accent-2: #7d2bb5;
+  --accent-rgb: 203, 50, 128;
+  --on-accent: #fff;
   --glow: 0 0 18px rgba(var(--accent-rgb), 0.55);
   --radius: 14px;
   --max-width: 1080px;
@@ -57,7 +57,7 @@ p { margin: 0; }
   height: 70vh;
   background:
     radial-gradient(45% 60% at 20% 20%, rgba(var(--accent-rgb), 0.2), transparent 60%),
-    radial-gradient(35% 50% at 85% 10%, rgba(194, 30, 240, 0.16), transparent 60%);
+    radial-gradient(35% 50% at 85% 10%, rgba(125, 43, 181, 0.18), transparent 60%);
   pointer-events: none;
   z-index: 0;
 }
@@ -88,7 +88,7 @@ p { margin: 0; }
   width: 34px;
   height: 34px;
   border-radius: 9px;
-  background: linear-gradient(155deg, var(--accent-strong), var(--accent-2));
+  background: linear-gradient(155deg, var(--accent), var(--accent-2));
   color: var(--on-accent);
   box-shadow: var(--glow);
   font-family: "Space Grotesk", sans-serif;
@@ -227,7 +227,7 @@ p { margin: 0; }
 
 .waitlist-form button {
   flex: 0 0 auto;
-  background: linear-gradient(135deg, var(--accent-strong), var(--accent));
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
   color: var(--on-accent);
   box-shadow: var(--glow);
   border: none;
@@ -371,7 +371,7 @@ p { margin: 0; }
 .cta-button {
   display: inline-block;
   margin-top: 28px;
-  background: linear-gradient(135deg, var(--accent-strong), var(--accent-2));
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
   color: var(--on-accent);
   box-shadow: var(--glow);
   text-decoration: none;
