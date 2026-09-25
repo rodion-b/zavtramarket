@@ -1,20 +1,22 @@
 :root {
-  color-scheme: light;
-  --bg: #fff;
-  --bg-alt: #f7f4f4;
-  --card: #fff;
-  --border: #ebe4e4;
-  --text: #17100f;
-  --text-dim: #6e6361;
+  color-scheme: dark;
+  --bg: #000;
+  --bg-alt: #0e0a0a;
+  --card: #140e0e;
+  --border: #2c2121;
+  --text: #f6efef;
+  --text-dim: #aa9c9b;
   --accent: #e11d2a;
-  --accent-strong: #c4121e;
+  --accent-strong: #ff4d57;
   --accent-2: #9b0d16;
   --accent-rgb: 225, 29, 42;
   --on-accent: #fff;
-  --glow: 0 6px 20px rgba(var(--accent-rgb), 0.28);
-  --text-glow: none;
-  --success: #15803d;
-  --danger: #c62828;
+  --glow: 0 0 18px rgba(var(--accent-rgb), 0.5);
+  --text-glow: drop-shadow(0 0 14px rgba(var(--accent-rgb), 0.5));
+  --success: #3fbf7f;
+  --danger: #f0645e;
+  --on-success: #0b1a12;
+  --on-danger: #1d0b0a;
   --radius: 14px;
   --max-width: 1080px;
   font-size: 16px;
@@ -27,7 +29,9 @@ html { scroll-behavior: smooth; }
 body {
   margin: 0;
   min-height: 100vh;
-  background: var(--bg);
+  min-height: 100vh;
+  background: linear-gradient(180deg, #000 0%, #080404 55%, #170607 100%) fixed;
+  background-color: var(--bg);
   color: var(--text);
   font-family: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
   line-height: 1.5;
@@ -59,8 +63,8 @@ p { margin: 0; }
   inset: -20% -10% auto -10%;
   height: 70vh;
   background:
-    radial-gradient(45% 60% at 20% 20%, rgba(var(--accent-rgb), 0.07), transparent 60%),
-    radial-gradient(35% 50% at 85% 10%, rgba(155, 13, 22, 0.05), transparent 60%);
+    radial-gradient(45% 60% at 20% 20%, rgba(var(--accent-rgb), 0.18), transparent 60%),
+    radial-gradient(35% 50% at 85% 10%, rgba(155, 13, 22, 0.2), transparent 60%);
   pointer-events: none;
   z-index: 0;
 }
