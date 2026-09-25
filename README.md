@@ -17,6 +17,8 @@ Everything runs in the browser: prices tick on a timer, orders fill against a ge
 - `data.js`: the fictional markets; `strings.js`: languages and UI text
 - `markets/index.html`: redirects old `/markets/` links to the home page
 
+Asset links in `index.html` carry a `?v=` content hash so browsers never mix a new page with cached old CSS/JS. After changing a CSS or JS file, update its hash (first 8 hex chars of `sha1sum <file>`).
+
 ## Before launch
 
 - The waitlist form only validates and shows a confirmation locally — **no email is actually captured yet**. Wire the waitlist `submit` handler in `app.js` up to a real backend, e.g. [Formspree](https://formspree.io), Mailchimp, ConvertKit, or a Supabase table.

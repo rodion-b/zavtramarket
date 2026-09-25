@@ -72,7 +72,7 @@ main, .site-footer, .demo-banner { position: relative; z-index: 1; }
 
 /* The logo: ZAVTRA rising behind the Earth's curve (inline SVG). */
 .brand { display: inline-flex; flex: none; text-decoration: none; }
-.brand-logo { display: block; height: 28px; width: auto; }
+.brand-logo { display: block; } /* sized by its width/height attributes */
 
 /* Highlighted words, e.g. "завтра" in the slogan. */
 .logo-text {
@@ -142,7 +142,6 @@ main, .site-footer, .demo-banner { position: relative; z-index: 1; }
 }
 
 .site-footer .brand { margin-bottom: 14px; }
-.site-footer .brand-logo { height: 30px; }
 .site-footer p { margin-top: 6px; }
 .site-footer .fine-print { max-width: 520px; margin: 10px auto 0; opacity: 0.7; }
 
