@@ -11,10 +11,10 @@ window.I18N = {
 
   strings: {
     title: {
-      ru: "ZavtraMarket — Предскажи завтра. Вместе.",
-      uk: "ZavtraMarket — Передбач завтра. Разом.",
-      be: "ZavtraMarket — Прадкажы заўтра. Разам.",
-      en: "ZavtraMarket — Predict tomorrow, together",
+      ru: "ZavtraMarket — Что будет завтра?",
+      uk: "ZavtraMarket — Що буде завтра?",
+      be: "ZavtraMarket — Што будзе заўтра?",
+      en: "ZavtraMarket — What happens tomorrow?",
     },
     eyebrow: {
       ru: "Скоро запуск · Открыт лист ожидания",
@@ -23,23 +23,17 @@ window.I18N = {
       en: "Coming soon · Waitlist open",
     },
     // {logo} is swapped for the :З brand face, standing in for the "з".
-    heroLine1: {
-      ru: "Предскажи {logo}автра.",
-      uk: "Передбач {logo}автра.",
-      be: "Прадкажы {logo}аўтра.",
-      en: "Predict tomorrow.",
-    },
-    heroLine2: {
-      ru: "Вместе.",
-      uk: "Разом.",
-      be: "Разам.",
-      en: "Together.",
+    slogan: {
+      ru: "Что будет {logo}автра?",
+      uk: "Що буде {logo}автра?",
+      be: "Што будзе {logo}аўтра?",
+      en: "What happens tomorrow?",
     },
     subhead: {
-      ru: "ZavtraMarket — рынок прогнозов для славянского мира: выборы, футбол, курсы валют, культура. Скажи, во что веришь. Подтверди ставкой. Получи выплату, если оказался прав.",
-      uk: "ZavtraMarket — ринок прогнозів для слов'янського світу: вибори, футбол, курси валют, культура. Скажи, у що віриш. Підтвердь ставкою. Отримай виплату, якщо мав рацію.",
-      be: "ZavtraMarket — рынак прагнозаў для славянскага свету: выбары, футбол, курсы валют, культура. Скажы, у што верыш. Пацвердзі стаўкай. Атрымай выплату, калі меў рацыю.",
-      en: "ZavtraMarket is a prediction market built for the Slavic world — elections, football, currencies, culture. Say what you believe. Back it. Get paid when you're right.",
+      ru: "ZavtraMarket — рынок прогнозов: выборы, футбол, курсы валют, культура. Скажи, во что веришь. Подтверди ставкой. Получи выплату, если оказался прав.",
+      uk: "ZavtraMarket — ринок прогнозів: вибори, футбол, курси валют, культура. Скажи, у що віриш. Підтвердь ставкою. Отримай виплату, якщо мав рацію.",
+      be: "ZavtraMarket — рынак прагнозаў: выбары, футбол, курсы валют, культура. Скажы, у што верыш. Пацвердзі стаўкай. Атрымай выплату, калі меў рацыю.",
+      en: "ZavtraMarket is a prediction market for elections, football, currencies and culture. Say what you believe. Back it. Get paid when you're right.",
     },
     emailLabel: {
       ru: "Электронная почта",
