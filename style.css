@@ -1,13 +1,16 @@
 :root {
-  --bg: #0b0d12;
-  --bg-alt: #12151d;
-  --card: #161a24;
-  --border: #262b38;
-  --text: #eef0f5;
-  --text-dim: #9aa0b2;
-  --accent: #e0a640;
-  --accent-strong: #f2c26b;
-  --accent-red: #c4453a;
+  --bg: #000;
+  --bg-alt: #0d0a10;
+  --card: #120e16;
+  --border: #2a2231;
+  --text: #f5eef5;
+  --text-dim: #a89cab;
+  --accent: #ff2e97;
+  --accent-strong: #ff5cb0;
+  --accent-2: #c21ef0;
+  --accent-rgb: 255, 46, 151;
+  --on-accent: #1a0010;
+  --glow: 0 0 18px rgba(var(--accent-rgb), 0.55);
   --radius: 14px;
   --max-width: 1080px;
   font-size: 16px;
@@ -19,7 +22,9 @@ html { scroll-behavior: smooth; }
 
 body {
   margin: 0;
-  background: var(--bg);
+  min-height: 100vh;
+  background: linear-gradient(180deg, #000 0%, #07040a 55%, #140818 100%) fixed;
+  background-color: var(--bg);
   color: var(--text);
   font-family: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
   line-height: 1.5;
@@ -51,8 +56,8 @@ p { margin: 0; }
   inset: -20% -10% auto -10%;
   height: 70vh;
   background:
-    radial-gradient(45% 60% at 20% 20%, rgba(224, 166, 64, 0.16), transparent 60%),
-    radial-gradient(35% 50% at 85% 10%, rgba(196, 69, 58, 0.14), transparent 60%);
+    radial-gradient(45% 60% at 20% 20%, rgba(var(--accent-rgb), 0.2), transparent 60%),
+    radial-gradient(35% 50% at 85% 10%, rgba(194, 30, 240, 0.16), transparent 60%);
   pointer-events: none;
   z-index: 0;
 }
@@ -83,8 +88,9 @@ p { margin: 0; }
   width: 34px;
   height: 34px;
   border-radius: 9px;
-  background: linear-gradient(155deg, var(--accent-strong), var(--accent-red));
-  color: #16130a;
+  background: linear-gradient(155deg, var(--accent-strong), var(--accent-2));
+  color: var(--on-accent);
+  box-shadow: var(--glow);
   font-family: "Space Grotesk", sans-serif;
   font-weight: 700;
   font-size: 18px;
@@ -98,7 +104,8 @@ p { margin: 0; }
 .nowrap { white-space: nowrap; }
 
 .logo-text {
-  background: linear-gradient(155deg, var(--accent-strong), var(--accent-red));
+  background: linear-gradient(155deg, var(--accent-strong), var(--accent-2));
+  filter: drop-shadow(0 0 14px rgba(var(--accent-rgb), 0.55));
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -142,7 +149,7 @@ p { margin: 0; }
 .lang-option:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
 .lang-option[aria-pressed="true"] {
   background: var(--accent);
-  color: #16130a;
+  color: var(--on-accent);
 }
 
 .header-actions { display: flex; align-items: center; gap: 12px; }
@@ -170,8 +177,8 @@ p { margin: 0; }
 .eyebrow {
   display: inline-block;
   color: var(--accent-strong);
-  background: rgba(224, 166, 64, 0.1);
-  border: 1px solid rgba(224, 166, 64, 0.3);
+  background: rgba(var(--accent-rgb), 0.1);
+  border: 1px solid rgba(var(--accent-rgb), 0.35);
   padding: 6px 14px;
   border-radius: 999px;
   font-size: 13px;
@@ -221,7 +228,8 @@ p { margin: 0; }
 .waitlist-form button {
   flex: 0 0 auto;
   background: linear-gradient(135deg, var(--accent-strong), var(--accent));
-  color: #16130a;
+  color: var(--on-accent);
+  box-shadow: var(--glow);
   border: none;
   font: inherit;
   font-weight: 700;
@@ -313,7 +321,7 @@ p { margin: 0; }
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  background: rgba(224, 166, 64, 0.14);
+  background: rgba(var(--accent-rgb), 0.14);
   color: var(--accent-strong);
   font-family: "Space Grotesk", sans-serif;
   font-weight: 700;
@@ -363,8 +371,9 @@ p { margin: 0; }
 .cta-button {
   display: inline-block;
   margin-top: 28px;
-  background: linear-gradient(135deg, var(--accent-strong), var(--accent-red));
-  color: #16130a;
+  background: linear-gradient(135deg, var(--accent-strong), var(--accent-2));
+  color: var(--on-accent);
+  box-shadow: var(--glow);
   text-decoration: none;
   font-weight: 700;
   padding: 14px 28px;

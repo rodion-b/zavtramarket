@@ -84,7 +84,7 @@ a { color: inherit; }
 .delta.down { color: var(--no); }
 .delta.flat { color: var(--text-dim); }
 
-@keyframes flash { from { background: rgba(242, 194, 107, 0.35); } to { background: transparent; } }
+@keyframes flash { from { background: rgba(var(--accent-rgb), 0.35); } to { background: transparent; } }
 .flash { animation: flash 0.9s ease-out; border-radius: 4px; }
 
 .star {
@@ -184,7 +184,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   border: 1px solid var(--border);
 }
 .pill:hover { color: var(--text); }
-.pill.active { color: #16130a; background: var(--accent-strong); border-color: var(--accent-strong); }
+.pill.active { color: var(--on-accent); background: var(--accent); border-color: var(--accent); box-shadow: var(--glow); }
 
 .tools { display: flex; gap: 8px; }
 .search, .select, .field input {
@@ -239,7 +239,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
   padding: 16px;
   transition: border-color 0.15s ease;
 }
-.card:hover { border-color: #3a4152; }
+.card:hover { border-color: rgba(var(--accent-rgb), 0.45); }
 .card-head { display: grid; grid-template-columns: auto 1fr auto; gap: 10px; align-items: start; }
 .card-icon, .event-icon {
   display: grid;

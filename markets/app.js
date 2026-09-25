@@ -13,7 +13,7 @@
   const HISTORY_HOURS = 24 * 60;
   const TICK_MS = 3000;
   const LOCALES = { ru: "ru-RU", uk: "uk-UA", be: "be-BY", en: "en-US" };
-  const COLORS = ["#f2c26b", "#6ea8fe", "#6fd49a", "#f07a7a", "#c79bf2", "#5fd3d3"];
+  const COLORS = ["#ff5cb0", "#6ea8fe", "#6fd49a", "#f2c26b", "#c79bf2", "#5fd3d3"];
   const RANGES = { "1d": 24, "1w": 168, "1m": 720, all: HISTORY_HOURS };
 
   // ---------- markets index ----------
