@@ -1,6 +1,6 @@
 # ZavtraMarket
 
-Website for **ZavtraMarket** — a prediction market (politics, sport, currencies, culture), currently a demo with a waitlist. Domain: `zavtramarket.com`.
+Website for **ZavtraMarket** — a prediction market (politics, sport, currencies, culture), currently a demo with a waitlist. Domain: `zavtramarkets.com` (`zavtramarket.com` and `zavtra.markets` redirect to it via Porkbun URL forwarding).
 
 Static site, no build step. The home page is a Kalshi-style prediction-market demo with made-up data:
 
@@ -26,9 +26,9 @@ Asset links in `index.html` carry a `?v=` content hash so browsers never mix a n
 
 ## Deploy (GitHub Pages)
 
-1. Push this repo to GitHub (e.g. `rodion-b/zavtramarket`).
+1. Push this repo to GitHub (`rodion-b/zavtramarkets`).
 2. In the repo settings, enable **Pages** for the `main` branch, root directory.
-3. `CNAME` already contains `zavtramarket.com` — point your domain's DNS at GitHub Pages ([docs](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site)):
+3. `CNAME` already contains `zavtramarkets.com` — point your domain's DNS at GitHub Pages ([docs](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site)):
    - `A` records for the apex domain to GitHub's Pages IPs, or
    - a `CNAME` record from `www` to `<username>.github.io` if you serve from `www` instead.
 4. Wait for DNS to propagate and HTTPS to provision in the Pages settings.
