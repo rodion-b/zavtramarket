@@ -94,13 +94,10 @@ p { margin: 0; }
   background: linear-gradient(155deg, var(--accent), var(--accent-2));
   color: var(--on-accent);
   box-shadow: var(--glow);
-  font-family: "Space Grotesk", sans-serif;
-  font-weight: 700;
-  font-size: 18px;
-  letter-spacing: -0.06em;
-  padding-right: 0.06em;
   transition: transform 0.2s ease;
 }
+
+.brand-mark svg { width: 72%; height: 72%; }
 
 .brand:hover .brand-mark { transform: rotate(-8deg) scale(1.06); }
 
@@ -115,7 +112,7 @@ p { margin: 0; }
   letter-spacing: -0.04em;
 }
 
-.brand.small .brand-mark { width: 28px; height: 28px; font-size: 15px; }
+.brand.small .brand-mark { width: 28px; height: 28px; }
 
 .brand-name {
   font-family: "Space Grotesk", sans-serif;
