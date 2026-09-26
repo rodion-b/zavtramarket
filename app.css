@@ -837,6 +837,7 @@ a.oc-label:hover { color: var(--accent-strong); }
   /* A three-row header would eat too much of a phone screen if it stayed pinned. */
   .topbar { position: static; }
   .topbar-row { padding: 12px 16px 8px; }
+  .topbar .brand-logo { height: 34px; width: auto; } /* keeps logo + language + sign-up on one row */
   .app-nav { order: 4; flex-basis: 100%; overflow-x: auto; scrollbar-width: none; gap: 18px; }
   .balance-chip { display: none; }
   .cat-bar { padding: 0 16px; }

@@ -70,7 +70,7 @@ p { margin: 0; }
 
 main, .site-footer, .demo-banner { position: relative; z-index: 1; }
 
-/* The logo: ZAVTRA rising behind the Earth's curve (inline SVG). */
+/* The logo: ZAVTRA rising behind the Earth's curve, MARKETS on the Earth below (inline SVG). */
 .brand { display: inline-flex; flex: none; text-decoration: none; }
 .brand-logo { display: block; } /* sized by its width/height attributes */
 
