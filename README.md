@@ -1,6 +1,6 @@
 # ZavtraMarket
 
-Website for **ZavtraMarket** — a platform for making predictions (politics, sport, currencies, culture), currently a demo with a waitlist. Domain: `zavtramarkets.com` (`zavtramarket.com` and `zavtra.markets` redirect to it via Porkbun URL forwarding).
+Website for **ZavtraMarket** — a prediction market (politics, sport, currencies, culture), currently a demo with a waitlist. Domain: `zavtramarkets.com` (`zavtramarket.com` and `zavtra.markets` redirect to it via Porkbun URL forwarding).
 
 Static site, no build step. The home page is a Kalshi-style prediction-market demo with made-up data:
 
